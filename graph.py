@@ -64,35 +64,74 @@ class Graph(object):
         for edge in self.__generate_edges():
             res += str(edge) + " "
         return res
-    
+   
+#EXP: The following method finds a path from a start vertex to an end vertex: 
     def find_path(self, start_vertex, end_vertex, path=None):
-	    if path == None:
-	        path = []
-	    graph = self.__graph_dict
-	    path = path + [start_vertex]
-	    if start_vertex == end_vertex:
-	        return path 	#EXP: quite trivial
-	    if start_vertex not in graph:  
-	        return None 	#EXP: Invalid input
-	    for vertex in graph[start_vertex]: #EXP: valid input, graph[start_vertex] accesses the neighbouring vertices of start_vertex
-	        if vertex not in path: #EXP if neighbouring edges aren't already in path
-	            extended_path = self.find_path(vertex,  #EXP: did not understand this part
-	                                           end_vertex, 
-	                                           path)
-	            if extended_path: #EXP: did not understand this part
-	                return extended_path
-	    return None
+        if path == None:
+            path = []
+        graph = self.__graph_dict   
+        path = path + [start_vertex]
+        if start_vertex == end_vertex:
+            return path     #EXP: quite trivial
+        if start_vertex not in graph:  
+            return None     #EXP: Invalid input
+        for vertex in graph[start_vertex]: #EXP: valid input, graph[start_vertex] accesses the neighbouring vertices of start_vertex
+            if vertex not in path: #EXP if neighbouring edges aren't already in path
+                extended_path = self.find_path(vertex,  #EXP: did not understand this part
+                                               end_vertex, 
+                                               path)
+                if extended_path: #EXP: did not understand this part:[crack-whenever none is returned it takes extended path 
+                                  #exp:  as 0 and when the p is returned(line 71) it will take the non empty list as it as '1'
+                    return extended_path
+        return None
 
+    def __find_all_paths(self, start, end, path=[]):
+        if path == None:
+            path = []
+        path = path + [start]
+        graph = self.__graph_dict
+        if start == end:
+            return [path]
+        if start not in graph:  
+            return None     #EXP: Invalid input
+        paths = []
+        for node in graph[start]:
+            if node not in path:
+                newpaths = self.__find_all_paths( node, end, path)
+                for newpath in newpaths:
+                    paths.append(newpath)
+        return paths
 
-if __name__ == "__main__":
+    def find_ham(self):
+        count=0
+        vertices=self.vertices()
+        values=self.__graph_dict.values()
+        for val in values:
+            if (val !=[]):
+                count+=1    
+        ham_paths=[]
+        for start in vertices:
+            for end in vertices:
+                if start!=end:
+                    allpaths=self.__find_all_paths(start,end)
+                    for path in allpaths:
+                        if len(path)==count:
+                            ham_paths.append(path)
+        if ham_paths:
+            return ham_paths
+        else:
+            print ("ham path not present")
+            return None
+if __name__ == "__main__":					 #EXP: refer: https://stackoverflow.com/questions/419163/what-does-if-name-main-do
+    input_dict = input("Input a dictonary in 'vertice : [all its neighbouring vertices]' form ")
+    import ast
+    g = ast.literal_eval(input_dict)	#EXP-converts string input to a dict 
+    graph = Graph(g)                                    #https://stackoverflow.com/questions/17264174/python-how-to-take-a-dictionary-as-input
+    print (graph.find_ham())
+    
 
-    g = { "a" : ["d"],
-          "b" : ["c"],
-          "c" : ["b", "c", "d", "e"],
-          "d" : ["a", "c"],
-          "e" : ["c"],
-          "f" : []
-        }
+'''	
+#readymade input:		g = { "a" : ["d","e"],"b" : ["c","d"],"c" : ["b", "c", "d", "e"],"d" : ["a","b", "c"],"e" : ["c","a"],"f" : []}
+'''
 
-    graph = Graph(g)
-
+""" Code for making the 
