@@ -7,6 +7,7 @@ Constraints and special conditions to be implemented
 4. Central Hub: Fuel-filling centre
 
 1. For Weighted, we want to attach a number (integer) to each path. For this we could use a dictionary of objects whose keys are strings and values are dictionaries containing the weight of the path.
+For eg. if the lengths of the paths from a to b,c, and d are respectively 5,3,2, then the input should be list = {a:{b:5, c:3, d:2}}
 
 2. For time calculation, we need to define an integer variable time_taken. A function which in the list ham_paths has to be defined which would add the weight of paths between consecutive items, divided by speed, in the list to the variable time_taken. At the end, we can simply show this figure on pygame, and also ensure that it is below certain value.
 The second modification of this would be to attach weights to cities. This could be done by using a dictionary whose keys and values both are dictionaries themselves. Then, for time calculation, we can add the weights similarly as defined above, with additional terms of weights of cities which could be easily mapped. This modification would ensure that time is not just total distance divided by a factor.
