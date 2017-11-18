@@ -2,7 +2,7 @@ Constraints and special conditions to be implemented
 
 1. Weighted
 2. Time calculation (add different times to each city, moves with constant speed between cities)
-   Two techniques would be available - Minimize distance, minimize the time (can they ever be different?) 
+   Two techniques would be available - Minimize distance, minimize the time (can they ever be different? No, if we have two different short Hamilton paths, that have to visit the same cities, then the time spent in each city will be the same, so the problem collapses to solving the distance part) 
 3. Fuel Consumption
 4. Central Hub: Fuel-filling centre
 
