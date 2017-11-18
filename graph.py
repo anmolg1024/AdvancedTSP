@@ -139,7 +139,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 	gobj = Graph(g)                                    #https://stackoverflow.com/questions/17264174/python-how-to-take-a-dictionary-as-input
 	print ('\n','All possible Ham paths between the cities:', '\n',gobj.find_ham())
 	nodes= gobj.vertices()
-	print('\n',nodes)
+	#print('\n',nodes)
 	x=0
 	nodemap={}
 	for i in nodes:
@@ -154,9 +154,24 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 		for j in l:
 			templist.append(nodemap[j])
 		graph[nodemap[i]]=templist
-	print ('\n',(graph))
+	#print ('\n',(graph))
+	
+	temp_edges = list(gobj.edges())
+	print (temp_edges)
+	weights = raw_input("^These are the edges that have been identified in the graph. \n Please enter the weights of each edge in the same order in list format:")
+	
+	weights = ast.literal_eval(weights)
+	print ('\n', weights)
 
-	print (sorted(gobj.edges()))
+	weighted_edges = {}
+	j = 0
+	for i in weights:
+		weighted_edges[temp_edges[j]] = i
+		j+=1
+
+	print ('\n', (weighted_edges))
+
+	print ('\n')
 	'''
 	import pygame
 	import math
@@ -246,6 +261,6 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 '''
 		
 '''
-#readymade input:		g = { "a" : ["d","e"],"b" : ["c","d"],"c" : ["b", "c", "d", "e"],"d" : ["a","b", "c"],"e" : ["c","a"],"f" : []}
+#readymade input:		g = { "a" : ["d","e"],"b" : ["c","d"],"c" : ["b", "d", "e"],"d" : ["a","b", "c"],"e" : ["c","a"],"f" : []}
 '''
 # { "agra" : ["delhi","bombay"],"bombay" : ["agra","chennai","delhi"],"chennai" : ["delhi","bombay"],"delhi":["agra","bombay","chennai"] }
