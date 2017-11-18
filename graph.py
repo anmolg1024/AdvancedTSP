@@ -111,7 +111,7 @@ class Graph(object):
 					paths.append(newpath)
 		return paths
 
-	def find_ham(self):
+	def __find_ham(self):
 		count=0
 		vertices=self.vertices()
 		values=self.__graph_dict.values()
@@ -131,13 +131,31 @@ class Graph(object):
 		else:
 			print ("ham path not present")
 			return None
+	def edgeslist_from_path(self):
+		edge_tup=[]
+		m=0
+		path_list=self.__find_ham()
+		count=0
+		values=self.__graph_dict.values()
+		for val in values:
+			if (val !=[]):
+				count+=1 
+		for i in path_list:
+			edge_tup.append([])                           
+			for j in range(0,count-1):
+				edge_tup[m].append((i[j],i[j+1]))
+			m+=1
+		return edge_tup
+			
+		
+		
 if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/419163/what-does-if-name-main-do
 	input_dict = raw_input("Input a dictonary in 'vertice : [all its neighbouring vertices]' form ")
 	import ast
 	import os
 	g = ast.literal_eval(input_dict)	#EXP-converts string input to a dict 
 	gobj = Graph(g)                                    #https://stackoverflow.com/questions/17264174/python-how-to-take-a-dictionary-as-input
-	print ('\n','All possible Ham paths between the cities:', '\n',gobj.find_ham())
+	#print ('\n','All possible Ham paths between the cities:', '\n',gobj.edgeslist_from_path())
 	nodes= gobj.vertices()
 	#print('\n',nodes)
 	x=0
@@ -161,7 +179,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 	weights = raw_input("^These are the edges that have been identified in the graph. \n Please enter the weights of each edge in the same order in list format:")
 	
 	weights = ast.literal_eval(weights)
-	print ('\n', weights)
+	#print ('\n', weights)
 
 	weighted_edges = {}
 	j = 0
@@ -169,14 +187,33 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 		weighted_edges[temp_edges[j]] = i
 		j+=1
 
-	print ('\n', (weighted_edges))
+	#print ('\n', (weighted_edges))                                          #finding the shortest path in terms of edges using weights
+	all_ham_paths_in_tupleformat=gobj.edgeslist_from_path()
+	minsum=sum(weights)
+	shortest_way_edges=list()
+	for i in all_ham_paths_in_tupleformat:
+		tempsum=0
+		for j in i:
+			tempsum=tempsum+weighted_edges[j]
+		if (tempsum<minsum):
+			minsum=tempsum
+			shortest_way_edges=i
+	print ('\n',"path which shall take the minimum amount to travel to all cities in terms of edges:",shortest_way_edges)
+	shortest_way_vertices=[]
+	for i in shortest_way_edges:                    #from shortest_way_edges to shortest_way in the form of vertices
+		for j in i:
+			if j not in shortest_way_vertices:
+				shortest_way_vertices.append(j)
+	print ('\n',"path which shall take the minimum amount to travel to all cities in terms of vertices:",shortest_way_vertices)
 
-	print ('\n')
-	'''
+	#pygame code starts-
+	path=[]
+	for i in shortest_way_vertices:
+		path.append(nodemap[i])
+	print(path)
 	import pygame
 	import math
 	pygame.init()
-	path = [0,1,2,5,4,3]
 	red = (150,0,0)
 	green = (0,255,0)
 	blue = (0,0,255)
@@ -258,7 +295,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 		
 	pygame.quit()
 	quit()
-'''
+
 		
 '''
 #readymade input:		g = { "a" : ["d","e"],"b" : ["c","d"],"c" : ["b", "d", "e"],"d" : ["a","b", "c"],"e" : ["c","a"],"f" : []}
