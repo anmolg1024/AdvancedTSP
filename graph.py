@@ -61,8 +61,8 @@ class Graph(object):
 		edges = [] #defines an empty array to display
 		for vertex in self.__graph_dict:            #EXP:refer: http://www.techeuler.com/python/usage-of-underscores-before-and-after-function-name-in-python/
 			for neighbour in self.__graph_dict[vertex]:
-				if {neighbour, vertex} not in edges:
-					edges.append({vertex, neighbour}) #EXP: simply adds key-value pairs to the set edges
+				edges.append((vertex, neighbour)) #EXP: simply adds key-value pairs to the set edges
+					
 		return edges
 
 	def __str__(self): #EXP: simply returns all the vertices in one line and the edges in another line 
@@ -139,7 +139,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 	gobj = Graph(g)                                    #https://stackoverflow.com/questions/17264174/python-how-to-take-a-dictionary-as-input
 	print ('\n','All possible Ham paths between the cities:', '\n',gobj.find_ham())
 	nodes= gobj.vertices()
-	print('\n','\n',nodes)
+	print('\n',nodes)
 	x=0
 	nodemap={}
 	for i in nodes:
@@ -155,6 +155,9 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 			templist.append(nodemap[j])
 		graph[nodemap[i]]=templist
 	print ('\n',graph)
+
+	print (gobj.edges())
+	'''
 	import pygame
 	import math
 	pygame.init()
@@ -240,7 +243,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 		
 	pygame.quit()
 	quit()
-
+'''
 		
 '''
 #readymade input:		g = { "a" : ["d","e"],"b" : ["c","d"],"c" : ["b", "c", "d", "e"],"d" : ["a","b", "c"],"e" : ["c","a"],"f" : []}
