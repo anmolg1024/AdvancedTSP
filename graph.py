@@ -26,7 +26,7 @@ class Graph(object):
 
 	def vertices(self):
 		""" returns the vertices of a graph """
-		return list(self.__graph_dict.keys()) #EXP: cool
+		return sorted(list(self.__graph_dict.keys())) #EXP: cool
 
 	def edges(self):
 		""" returns the edges of a graph """
@@ -145,7 +145,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 	for i in nodes:
 		nodemap[nodes[x]]=x
 		x+=1
-	print ('\n',nodemap)
+	print ('\n',(nodemap))
 	graph={}
    
 	for i in nodes:
@@ -154,9 +154,9 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 		for j in l:
 			templist.append(nodemap[j])
 		graph[nodemap[i]]=templist
-	print ('\n',graph)
+	print ('\n',(graph))
 
-	print (gobj.edges())
+	print (sorted(gobj.edges()))
 	'''
 	import pygame
 	import math
