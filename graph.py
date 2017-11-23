@@ -214,22 +214,26 @@ postmanImage = pygame.image.load("post.png").convert()
 pygame.display.update()
 
 gameExit = False
-
-for ham in range(len(path)-1): #this outer loop goes over
-    tot = 10*(weighted_edges[shortest_way_edges[ham]])
-    legendx = 10
+"""
+The following loops create the frames at every clock tick, and keep updating the coordinates to make the postman traverse the hamiltonian path.
+The inputs to this are the Hamiltonian path, and the weight of each edge in the path.
+The speed of the postman varies accordinng to the weight of the path, more the weight less the speed.
+"""
+for ham in range(len(path)-1):  #this outer loop goes over every node in the hamiltonan path
+    tot = 10*(weighted_edges[shortest_way_edges[ham]]) # this is the number of intervals that each weighted edges is to be divided into so that we get more steps(more time to travel) for a heavy weighted path
+    legendx = 10    #x and y coordinates of the legend at the top left corner of the screen which lists out the weights of the paths
     legendy = 10
     pygame.time.delay(500)
     for step in range(tot):
         gameDisplay.fill(white)
-        for i in range(len(nodes)):
+        for i in range(len(nodes)): #this loop displays the nodes in a circular fasion and draws a circle at every vertex of the graph
             x = 400+(200*(math.cos((360*i)/(len(nodes)+1))))
             y = 300+(200*(math.sin((360*i)/(len(nodes)+1))))
             r= 157/len(nodes)
             label = myfont.render(nodes[i], 2, darkBlue)
-            gameDisplay.blit(label, ((int(x)-2*int(r)),int(y)))
+            gameDisplay.blit(label, ((int(x)-2*int(r)),int(y)))     #command to display the name of the vertex next to each circle created
             pygame.draw.circle(gameDisplay, red, (int(x),int(y)), int(r), 5)
-        for node in graph:
+        for node in graph:      #this loop draws edges between the relevant vertices, as specified by the user
             x = 400+(200*(math.cos((360*node)/(len(nodes)+1))))
             y = 300+(200*(math.sin((360*node)/(len(nodes)+1))))
             for neigh in range(len(graph[node])):
@@ -237,20 +241,18 @@ for ham in range(len(path)-1): #this outer loop goes over
                 y1 = 300+(200*(math.sin((360*graph[node][neigh])/(len(nodes)+1))))
                 pygame.draw.lines(gameDisplay, black, False, [(x,y),(x1,y1)], 1)
 
-        x = 400+(200*(math.cos((360*path[ham])/(len(nodes)+1))))
+        x = 400+(200*(math.cos((360*path[ham])/(len(nodes)+1))))       #calculates the cordinates that the postman needs to follow on the edges using the ratio formula of a line where it divides the line into 'tot' number of intervals
         y = 300+(200*(math.sin((360*path[ham])/(len(nodes)+1))))
         x1 = 400+(200*(math.cos((360*path[ham+1])/(len(nodes)+1))))
         y1 = 300+(200*(math.sin((360*path[ham+1])/(len(nodes)+1))))
         x2 = ((step*x1)+((tot-step)*x))/tot
         y2 = ((step*y1)+((tot-step)*y))/tot
         r= 157/len(nodes)
-        pygame.time.delay(100)
+        pygame.time.delay(100)  #delays the postman by 100 ms after every step he takes
 
-        gameDisplay.blit(postmanImage, ((int(x2)-((int(r))/2)),(int(y2)-((int(r))/2)-10)))
-
-       # gameDisplay.fill(green, rect = [(int(x2)-((int(r))/2)),(int(y2)-((int(r))/2)),int(r),int(r)])
+        gameDisplay.blit(postmanImage, ((int(x2)-((int(r))/2)),(int(y2)-((int(r))/2)-10)))  #command to display the image of the postman at the coordinates at calculated above        
         
-        label = myfont1.render("Path", 2, blue)
+        label = myfont1.render("Path", 2, blue)     #displayes the legend at the top left corner
         gameDisplay.blit(label, (10, 10))
         label = myfont1.render("Weight", 2, darkBlue)
         gameDisplay.blit(label, (80, 10))
@@ -258,21 +260,21 @@ for ham in range(len(path)-1): #this outer loop goes over
         legendy = 10
         legendx = 20
             
-        for legend in range(len(temp_edges)):
+        for legend in range(len(temp_edges)):      #takes the edges from the temp_edges and displays it at the coordinates of the legend
             legendy = legendy + 20;
             label = myfont1.render(temp_edges[legend][0]+temp_edges[legend][1], 2, blue)
             gameDisplay.blit(label, (legendx, legendy))
             label = myfont1.render(str(weighted_edges[temp_edges[legend]]), 2, darkBlue)
             gameDisplay.blit(label, (legendx+70, legendy))
 
-        pygame.display.update()
+        pygame.display.update()     #this updates the display at the end of every iteration so we can see the postman moving
             
-while not gameExit:
+while not gameExit: #till the window is not closed display the end frame of the screen
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameExit = True
 
-    gameDisplay.fill(white)
+    gameDisplay.fill(white)     #this just displayes the end frame of the game.
     for i in range(len(nodes)):
         x = 400+(200*(math.cos((360*i)/(len(nodes)+1))))
         y = 300+(200*(math.sin((360*i)/(len(nodes)+1))))
