@@ -187,7 +187,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 		weighted_edges[temp_edges[j]] = i
 		j+=1
 
-	#print ('\n', (weighted_edges))                                          #finding the shortest path in terms of edges using weights
+	print ('\n', (weighted_edges))                                          #finding the shortest path in terms of edges using weights
 	all_ham_paths_in_tupleformat=gobj.edgeslist_from_path()
 	minsum=sum(weights)
 	shortest_way_edges=list()
@@ -221,11 +221,12 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 	white = (255,255,255)
 	black = (0,0,0)
 	pink = (255,200,200)
-	tot = 10
+	orange = (255,69,0)
 
 	gameDisplay = pygame.display.set_mode((800,600))
 	pygame.display.set_caption('TSP')
 	myfont = pygame.font.SysFont("monospace", 20)
+	myfont1 = pygame.font.SysFont("monospace", 15)
 	pygame.time.Clock()
 
 	pygame.display.update()
@@ -233,71 +234,104 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 	gameExit = False
 
 	for ham in range(len(path)-1):
-		for step in range(tot):
-			gameDisplay.fill(white)
-			for i in range(len(nodes)):
-				x = 400+(200*(math.cos((360*i)/(len(nodes)+1))))
-				y = 300+(200*(math.sin((360*i)/(len(nodes)+1))))
-				r= 157/len(nodes)
-				label = myfont.render(nodes[i], 2, darkBlue)
-				gameDisplay.blit(label, ((int(x)-2*int(r)),int(y)))
-				pygame.draw.circle(gameDisplay, red, (int(x),int(y)), int(r), 5)
-			for node in graph:
-				x = 400+(200*(math.cos((360*node)/(len(nodes)+1))))
-				y = 300+(200*(math.sin((360*node)/(len(nodes)+1))))
-				for neigh in range(len(graph[node])):
-					x1 = 400+(200*(math.cos((360*graph[node][neigh])/(len(nodes)+1))))
-					y1 = 300+(200*(math.sin((360*graph[node][neigh])/(len(nodes)+1))))
-					pygame.draw.lines(gameDisplay, black, False, [(x,y),(x1,y1)], 1)
+	    tot = 10*(weighted_edges[shortest_way_edges[ham]])
+	    legendx = 10
+	    legendy = 10
+	    for step in range(tot):
+	        gameDisplay.fill(white)
+	        for i in range(len(nodes)):
+	            x = 400+(200*(math.cos((360*i)/(len(nodes)+1))))
+	            y = 300+(200*(math.sin((360*i)/(len(nodes)+1))))
+	            r= 157/len(nodes)
+	            label = myfont.render(nodes[i], 2, darkBlue)
+	            gameDisplay.blit(label, ((int(x)-2*int(r)),int(y)))
+	            pygame.draw.circle(gameDisplay, red, (int(x),int(y)), int(r), 5)
+	        for node in graph:
+	            x = 400+(200*(math.cos((360*node)/(len(nodes)+1))))
+	            y = 300+(200*(math.sin((360*node)/(len(nodes)+1))))
+	            for neigh in range(len(graph[node])):
+	                x1 = 400+(200*(math.cos((360*graph[node][neigh])/(len(nodes)+1))))
+	                y1 = 300+(200*(math.sin((360*graph[node][neigh])/(len(nodes)+1))))
+	                pygame.draw.lines(gameDisplay, black, False, [(x,y),(x1,y1)], 1)
 
-			x = 400+(200*(math.cos((360*path[ham])/(len(nodes)+1))))
-			y = 300+(200*(math.sin((360*path[ham])/(len(nodes)+1))))
-			x1 = 400+(200*(math.cos((360*path[ham+1])/(len(nodes)+1))))
-			y1 = 300+(200*(math.sin((360*path[ham+1])/(len(nodes)+1))))
-			x2 = ((step*x1)+((tot-step)*x))/tot
-			y2 = ((step*y1)+((tot-step)*y))/tot
-			r= 157/len(nodes)
-			pygame.time.delay(100)
+	        x = 400+(200*(math.cos((360*path[ham])/(len(nodes)+1))))
+	        y = 300+(200*(math.sin((360*path[ham])/(len(nodes)+1))))
+	        x1 = 400+(200*(math.cos((360*path[ham+1])/(len(nodes)+1))))
+	        y1 = 300+(200*(math.sin((360*path[ham+1])/(len(nodes)+1))))
+	        x2 = ((step*x1)+((tot-step)*x))/tot
+	        y2 = ((step*y1)+((tot-step)*y))/tot
+	        r= 157/len(nodes)
+	        pygame.time.delay(100)
 
-			gameDisplay.fill(green, rect = [(int(x2)-((int(r))/2)),(int(y2)-((int(r))/2)),int(r),int(r)])
-		
-			pygame.display.update()
-				
+	        gameDisplay.fill(green, rect = [(int(x2)-((int(r))/2)),(int(y2)-((int(r))/2)),int(r),int(r)])
+	        
+	        label = myfont1.render("Path", 2, blue)
+	        gameDisplay.blit(label, (10, 10))
+	        label = myfont1.render("Weight", 2, darkBlue)
+	        gameDisplay.blit(label, (80, 10))
+
+	        legendy = 10
+	        legendx = 20
+	            
+	        for legend in range(len(temp_edges)):
+	            legendy = legendy + 20;
+	            label = myfont1.render(temp_edges[legend][0]+temp_edges[legend][1], 2, blue)
+	            gameDisplay.blit(label, (legendx, legendy))
+	            label = myfont1.render(str(weighted_edges[temp_edges[legend]]), 2, darkBlue)
+	            gameDisplay.blit(label, (legendx+70, legendy))
+
+	        pygame.display.update()
+	            
 	while not gameExit:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				gameExit = True
+	    for event in pygame.event.get():
+	        if event.type == pygame.QUIT:
+	            gameExit = True
 
-		gameDisplay.fill(white)
-		for i in range(len(nodes)):
-			x = 400+(200*(math.cos((360*i)/(len(nodes)+1))))
-			y = 300+(200*(math.sin((360*i)/(len(nodes)+1))))
-			r= 157/len(nodes)
-			label = myfont.render(nodes[i], 2, darkBlue)
-			gameDisplay.blit(label, ((int(x)-2*int(r)),int(y)))
-			pygame.draw.circle(gameDisplay, (255-(20*i),0,0), (int(x),int(y)), int(r), 5)
-			for node in graph:
-				x = 400+(200*(math.cos((360*node)/(len(nodes)+1))))
-				y = 300+(200*(math.sin((360*node)/(len(nodes)+1))))
-				for neigh in range(len(graph[node])):
-					x1 = 400+(200*(math.cos((360*graph[node][neigh])/(len(nodes)+1))))
-					y1 = 300+(200*(math.sin((360*graph[node][neigh])/(len(nodes)+1))))
-					pygame.draw.lines(gameDisplay, black, False, [(x,y),(x1,y1)], 1)
+	    gameDisplay.fill(white)
+	    for i in range(len(nodes)):
+	        x = 400+(200*(math.cos((360*i)/(len(nodes)+1))))
+	        y = 300+(200*(math.sin((360*i)/(len(nodes)+1))))
+	        r= 157/len(nodes)
+	        label = myfont.render(nodes[i], 2, darkBlue)
+	        gameDisplay.blit(label, ((int(x)-2*int(r)),int(y)))
+	        pygame.draw.circle(gameDisplay, red, (int(x),int(y)), int(r), 5)
+	        for node in graph:
+	            x = 400+(200*(math.cos((360*node)/(len(nodes)+1))))
+	            y = 300+(200*(math.sin((360*node)/(len(nodes)+1))))
+	            for neigh in range(len(graph[node])):
+	                x1 = 400+(200*(math.cos((360*graph[node][neigh])/(len(nodes)+1))))
+	                y1 = 300+(200*(math.sin((360*graph[node][neigh])/(len(nodes)+1))))
+	                pygame.draw.lines(gameDisplay, black, False, [(x,y),(x1,y1)], 1)
 
-		x = 400+(200*(math.cos((360*path[len(path)-1])/(len(nodes)+1))))
-		y = 300+(200*(math.sin((360*path[len(path)-1])/(len(nodes)+1))))
-		r= 157/len(nodes)
-		pygame.time.delay(500)
+	    x = 400+(200*(math.cos((360*path[len(path)-1])/(len(nodes)+1))))
+	    y = 300+(200*(math.sin((360*path[len(path)-1])/(len(nodes)+1))))
+	    r= 157/len(nodes)
+	    pygame.time.delay(500)
 
-		gameDisplay.fill(green, rect = [(int(x)-((int(r))/2)),(int(y)-((int(r))/2)),int(r),int(r)])
-		
-		pygame.display.update()
-		
+	    gameDisplay.fill(green, rect = [(int(x)-((int(r))/2)),(int(y)-((int(r))/2)),int(r),int(r)])
+
+	    label = myfont1.render("Path", 2, orange)
+	    gameDisplay.blit(label, (10, 10))
+	    label = myfont1.render("Weight", 2, orange)
+	    gameDisplay.blit(label, (80, 10))
+
+	    legendy = 10
+	    legendx = 20
+	            
+	    for legend in range(len(temp_edges)):
+	        legendy = legendy + 20;
+	        label = myfont1.render(temp_edges[legend][0]+temp_edges[legend][1], 2, blue)
+	        gameDisplay.blit(label, (legendx, legendy))
+	        label = myfont1.render(str(weighted_edges[temp_edges[legend]]), 2, darkBlue)
+	        gameDisplay.blit(label, (legendx+70, legendy))
+	    
+	    pygame.display.update()
+	    
 	pygame.quit()
 	quit()
 
 		
 '''
 #readymade input:		g = { "a" : ["d","e"],"b" : ["c","d"],"c" : ["b", "d", "e"],"d" : ["a","b", "c"],"e" : ["c","a"],"f" : []}
-'''
+'''#[1,2,3,4,5,3,6,5,2,1,6,4]
 # { "agra" : ["delhi","bombay"],"bombay" : ["agra","chennai","delhi"],"chennai" : ["delhi","bombay"],"delhi":["agra","bombay","chennai"] }
