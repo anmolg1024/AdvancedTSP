@@ -1,71 +1,43 @@
-""" A Python Class
-A simple Python graph class, demonstrating the essential 
-facts and functionalities of graphs.
 """
-
-''' 
-        g = { "a" : ["d","e"],
-          "b" : ["c","d"],
-          "c" : ["b", "c", "d", "e"],
-          "d" : ["a","b", "c"],
-          "e" : ["c","a"],
-          "f" : []
-        }
-'''
-    
+The following code takes a graph as an input in the form a dictionary whose keys are the vertices and the values are the corresponding neighboring vertices
+It identifies the edges in the graph, and subsequently asks for the respective weights of each.
+On inputting the edges, it finds all the possible Hamiltonian paths in the code, and then chooses the smallest one of them.
+"""
 class Graph(object):
 
-    def __init__(self, graph_dict=None): #EXP: used to initiate the graph as list of source vertex : target vertices
-        """ initializes a graph object 
-            If no dictionary or None is given, 
-            an empty dictionary will be used
-        """
+    def __init__(self, graph_dict=None): #used to initiate the graph as list of source vertex : target vertices
+        #initializes a graph object. If no dictionary or None is given, an empty dictionary will be used
         if graph_dict == None:
             graph_dict = {}
         self.__graph_dict = graph_dict
 
-    def vertices(self):
-        """ returns the vertices of a graph """
-        return sorted(list(self.__graph_dict.keys())) #EXP: cool
+    def vertices(self): #returns the vertices of a graph in a list
+        return sorted(list(self.__graph_dict.keys()))
 
-    def edges(self):
-        """ returns the edges of a graph """
-        return self.__generate_edges()  #EXP: will be defining a method later for this
+    def edges(self): #returns the edges of a graph in the form of tuples
+        return self.__generate_edges()  #will be defining a method later for this
 
     def add_vertex(self, vertex):
-        """ If the vertex "vertex" is not in 
-            self.__graph_dict, a key "vertex" with an empty
-            list as a value is added to the dictionary. 
-            Otherwise nothing has to be done. 
-        """
+        #If the vertex "vertex" is not in self.__graph_dict, a key "vertex" with an empty list as a value is added to the dictionary. Otherwise nothing has to be done
         if vertex not in self.__graph_dict:
-            self.__graph_dict[vertex] = [] #EXP: puts a key in the dictionary with an empty set of values
-
-    def add_edge(self, edge):
-        """ assumes that edge is of type set, tuple or list; 
-            between two vertices can be multiple edges! 
-        """
+            self.__graph_dict[vertex] = [] #EXP: puts a key in the dictionary with an empty set of values    
+        def add_edge(self, edge): #assumes that edge is of type set, tuple or list; between two vertices can be multiple edges
         edge = set(edge)
-        (vertex1, vertex2) = tuple(edge) #EXP: refers to the edge's member conveniently through vertex1 and vertex2
+        (vertex1, vertex2) = tuple(edge) #refers to the edge's member conveniently through vertex1 and vertex2
         if vertex1 in self.__graph_dict:
             self.__graph_dict[vertex1].append(vertex2) #EXP: adds vertex2 as the second vertex of the edge to the dictionary's key's value
         else:
-            self.__graph_dict[vertex1] = [vertex2] #EXP: cool
-
-    def __generate_edges(self):
-        """ A static method generating the edges of the 
-            graph "graph". Edges are represented as sets 
-            with one (a loop back to the vertex) or two 
-            vertices 
-        """
+            self.__graph_dict[vertex1] = [vertex2] 
+        
+        def __generate_edges(self):
+        #A static method generating the edges of the graph "graph". Edges are represented as sets with one (a loop back to the vertex) or two vertices
         edges = [] #defines an empty array to display
-        for vertex in self.__graph_dict:            #EXP:refer: http://www.techeuler.com/python/usage-of-underscores-before-and-after-function-name-in-python/
+        for vertex in self.__graph_dict: #refer: http://www.techeuler.com/python/usage-of-underscores-before-and-after-function-name-in-python/
             for neighbour in self.__graph_dict[vertex]:
                 edges.append((vertex, neighbour)) #EXP: simply adds key-value pairs to the set edges
-                    
         return edges
 
-    def __str__(self): #EXP: simply returns all the vertices in one line and the edges in another line 
+    def __str__(self): #simply returns all the vertices in one line and the edges in another line 
         res = "vertices: "
         for k in self.__graph_dict:
             res += str(k) + " "
@@ -74,7 +46,7 @@ class Graph(object):
             res += str(edge) + " "
         return res
     
-#EXP: The following method finds a path from a start vertex to an end vertex: 
+#EXP: The following method finds a path from a start vertex to an end vertex, through the Depth First Search Algorithm 
     def find_path(self, start_vertex, end_vertex, path=None):
         if path == None:
             path = []
@@ -89,8 +61,7 @@ class Graph(object):
                 extended_path = self.find_path(vertex,  #EXP: did not understand this part
                                                end_vertex, 
                                                path)
-                if extended_path: #EXP: did not understand this part:[crack-whenever none is returned it takes extended path 
-                                  #exp:  as 0 and when the p is returned(line 71) it will take the non empty list as it as '1'
+                if extended_path: #EXP: whenever none is returned it takes extended path as 0 and when the p is returned, it will take the non empty list as it as '1'
                     return extended_path
         return None
 
@@ -217,17 +188,12 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 '''#[1,2,3,4,5,3,6,5,2,1,6,4]
 # { "agra" : ["delhi","bombay"],"bombay" : ["agra","chennai","delhi"],"chennai" : ["delhi","bombay"],"delhi":["agra","bombay","chennai"] }
 
-
+# Start of Pygame code
 import pygame
 import math
 pygame.init()
 
-"""nodes = ['a','b','c','d','e','f','g','k']
-graph = {0:[1], 1:[2], 2:[4,5], 3:[4], 4:[5],5:[6],6:[5]}
-path = [0,1,2,5,4,3]
-temp_edges = [('a', 'b'), ('b','c'), ('c','f'), ('f','e'), ('e','d'), ('c','e')]
-weighted_edges = {('a', 'b'): 3, ('b','c'): 2, ('c','f'): 1, ('f','e'): 6, ('e','d'): 2, ('c','e'):1}
-shortest_way_edges = [('a', 'b'), ('b','c'), ('c','f'), ('f','e'), ('e','d')]"""
+#Defines colors
 red = (150,0,0)
 green = (0,255,0)
 blue = (0,0,255)
@@ -237,6 +203,7 @@ black = (0,0,0)
 pink = (255,200,200)
 orange = (255,69,0)
 
+#Initialising pygame and setting the fonts, etc.
 gameDisplay = pygame.display.set_mode((800,600))
 pygame.display.set_caption('TSP')
 myfont = pygame.font.SysFont("monospace", 20)
@@ -248,7 +215,7 @@ pygame.display.update()
 
 gameExit = False
 
-for ham in range(len(path)-1):
+for ham in range(len(path)-1): #this outer loop goes over
     tot = 10*(weighted_edges[shortest_way_edges[ham]])
     legendx = 10
     legendy = 10
