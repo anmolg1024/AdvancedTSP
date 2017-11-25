@@ -119,9 +119,9 @@ class Graph(object):
         return edge_tup
             
         
-        
+
 if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/419163/what-does-if-name-main-do
-    input_dict = raw_input("Input a dictonary in 'vertice : [all its neighbouring vertices]' form" + '\n')
+    input_dict = raw_input("Enter the locations of the city to be visited in graph format as '{vertice : [all its neighbouring vertices]}' form" + '\n')
     import ast
     import os
     g = ast.literal_eval(input_dict)    #EXP-converts string input to a dict 
@@ -146,9 +146,9 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     #print (graph)
     
     temp_edges = list(gobj.edges())
-    print ("These are the edges that have been identified in the graph:")
+    print ("These are the paths that have been identified in the city:")
     print (temp_edges)
-    weights = raw_input("Please enter the weights of each edge in the same order in list format:" + '\n')
+    weights = raw_input("Please enter the length of each path in the same order in list format:" + '\n')
     
     weights = ast.literal_eval(weights)
     #print ('\n', weights)
@@ -159,8 +159,23 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
         weighted_edges[temp_edges[j]] = i
         j+=1
 
-    print ("These are the assigned weights to the edges:")
+    print ("These are the assigned lengths of each path:")
     print (weighted_edges)                                          
+    
+    speed = raw_input("Enter the average speed of the salesman:" + '\n')
+    speed = int(speed)
+    total_distance = 0
+    for i in weights:
+        total_distance += i
+
+    time_taken = total_distance/speed
+
+    cities_time = raw_input("Enter the time spent by the salesman at each destination in list format:")
+    cities_time = ast.literal_eval(cities_time)
+    for i in cities_time:
+        time_taken += i
+
+
     all_ham_paths_in_tupleformat=gobj.edgeslist_from_path() #finding the shortest path in terms of edges using weights
     minsum=sum(weights)
     shortest_way_edges=list()
@@ -171,8 +186,11 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
         if (tempsum<minsum):
             minsum=tempsum
             shortest_way_edges=i
-    print ("The path which shall take the minimum amount of time to travel to all cities (in terms of paths):")
+    print ("The path which shall take the minimum amount of time to travel to all locations (in terms of paths):")
     print (shortest_way_edges)
+
+    print 'The time taken by the postman for his job will be: %d hours.' % time_taken
+
     shortest_way_vertices=[]
     for i in shortest_way_edges:                    #from shortest_way_edges to shortest_way in the form of vertices
         for j in i:
