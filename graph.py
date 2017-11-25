@@ -188,9 +188,8 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 
     fuel_consumed = total_distance/mileage
     
-    print 'The fuel consumed during the job is %f litres.' % fuel_consumed
-
-    cities_time = raw_input("Enter the time spent by the salesman at each destination in list format:")
+    
+    cities_time = raw_input("Enter the time spent by the salesman at each destination in list format:" + '\n')
     cities_time = ast.literal_eval(cities_time)
     #print (cities_time)
     for i in cities_time:
@@ -200,6 +199,8 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     print (shortest_way_edges)
     #print (time_taken) 
     print 'The time taken by the salesman for his job will be: %f hours.' % time_taken
+
+    print 'The fuel consumed during the job is %f litres.' % fuel_consumed
 
     shortest_way_vertices=[]
     for i in shortest_way_edges:                    #from shortest_way_edges to shortest_way in the form of vertices
@@ -223,7 +224,10 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 # Start of Pygame code
 import pygame
 import math
-pygame.init()
+start_pygame = raw_input("Do you want to start Pygame? Type 'Y' for yes, and 'N' for no:" + '\n')
+start_pygame = str(start_pygame)
+if start_pygame == 'Y':
+    pygame.init()
 
 #Defines colors
 red = (150,0,0)
