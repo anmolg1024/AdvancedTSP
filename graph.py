@@ -163,18 +163,10 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     print (weighted_edges)                                          
     
     speed = raw_input("Enter the average speed of the salesman:" + '\n')
-    speed = int(speed)
-    total_distance = 0
-    for i in weights:
-        total_distance += i
-
-    time_taken = total_distance/speed
-
-    cities_time = raw_input("Enter the time spent by the salesman at each destination in list format:")
-    cities_time = ast.literal_eval(cities_time)
-    for i in cities_time:
-        time_taken += i
-
+    speed = float(speed)
+   # total_distance = 0
+    #for i in weights:
+     #   total_distance += i
 
     all_ham_paths_in_tupleformat=gobj.edgeslist_from_path() #finding the shortest path in terms of edges using weights
     minsum=sum(weights)
@@ -186,10 +178,28 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
         if (tempsum<minsum):
             minsum=tempsum
             shortest_way_edges=i
+
+    #print (minsum)
+    total_distance = float(minsum)
+    time_taken = total_distance/speed
+
+    mileage = raw_input("Enter the average mileage of the salesman's car in km/litre:" + '\n')
+    mileage = float(mileage)
+
+    fuel_consumed = total_distance/mileage
+    
+    print 'The fuel consumed during the job is %f litres.' % fuel_consumed
+
+    cities_time = raw_input("Enter the time spent by the salesman at each destination in list format:")
+    cities_time = ast.literal_eval(cities_time)
+    #print (cities_time)
+    for i in cities_time:
+        time_taken += i
+
     print ("The path which shall take the minimum amount of time to travel to all locations (in terms of paths):")
     print (shortest_way_edges)
-
-    print 'The time taken by the postman for his job will be: %d hours.' % time_taken
+    #print (time_taken) 
+    print 'The time taken by the salesman for his job will be: %f hours.' % time_taken
 
     shortest_way_vertices=[]
     for i in shortest_way_edges:                    #from shortest_way_edges to shortest_way in the form of vertices
