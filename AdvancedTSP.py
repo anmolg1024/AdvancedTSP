@@ -150,7 +150,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     print (temp_edges)
     weights = raw_input("Please enter the length of each path in the same order in list format:" + '\n')
     
-    weights = ast.literal_eval(weights)
+    weights = ast.literal_eval(weights)  #makes the input accessible as a list item
     #print ('\n', weights)
 
     weighted_edges = {}
@@ -162,20 +162,20 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     print ("These are the assigned lengths of each path:")
     print (weighted_edges)                                          
     
-    speed = raw_input("Enter the average speed of the salesman:" + '\n')
+    speed = raw_input("Enter the average speed of the salesman:" + '\n') #used to calculate time taken
     speed = float(speed)
    # total_distance = 0
     #for i in weights:
      #   total_distance += i
 
     all_ham_paths_in_tupleformat=gobj.edgeslist_from_path() #finding the shortest path in terms of edges using weights
-    minsum=sum(weights)
+    minsum=sum(weights) #takes a sum of the items in the weights list to calculate total distance in the city
     shortest_way_edges=list()
     for i in all_ham_paths_in_tupleformat:
         tempsum=0
         for j in i:
             tempsum=tempsum+weighted_edges[j]
-        if (tempsum<minsum):
+        if (tempsum<minsum): #algorithm that finds the smallest path
             minsum=tempsum
             shortest_way_edges=i
 
@@ -188,12 +188,11 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
 
     fuel_consumed = total_distance/mileage
     
-    
     cities_time = raw_input("Enter the time spent by the salesman at each destination in list format:" + '\n')
-    cities_time = ast.literal_eval(cities_time)
+    cities_time = ast.literal_eval(cities_time) 
     #print (cities_time)
     for i in cities_time:
-        time_taken += i
+        time_taken += i #in order to find the total time taken in the day job
 
     print ("The path which shall take the minimum amount of time to travel to all locations (in terms of paths):")
     print (shortest_way_edges)
