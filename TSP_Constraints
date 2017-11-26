@@ -4,7 +4,6 @@ Constraints and special conditions to be implemented
 2. Time calculation (add different times to each city, moves with constant speed between cities)
    Two techniques would be available - Minimize distance, minimize the time (can they ever be different? No, if we have two different short Hamilton paths, that have to visit the same cities, then the time spent in each city will be the same, so the problem collapses to solving the distance part) 
 3. Fuel Consumption
-4. Central Hub: Fuel-filling centre
 
 1. For Weighted, we want to attach a number (integer) to each path. For this we could use a dictionary of objects whose keys are strings and values are dictionaries containing the weight of the path.
 For eg. if the lengths of the paths from a to b,c, and d are respectively 5,3,2, then the input should be list = {a:{b:5, c:3, d:2}}
@@ -15,4 +14,3 @@ For showing time calculation on pygame, we can use the code itself, simply by di
 
 3. This could make use of the distance factor and simply multiply it with a factor of mileage to calculate the fuel consumption and finally display it on pygame.
 
-4. This would perhaps be the best modification of all. For this, we would need to check the fuel consumption at each point in the node and accordingly determine if a change in path is to be done. Once the shortest ham.path is found (without taking fuel consumption in consideration), we can put a limit on the fuel tank capacity. Next, we can keep on subtracting the amount of fuel consumed after each traverse of the graph from the variable fuel_consumed and also check before each path if it's possible to cover it without having its fuel extinguished as well as it being able to reach the fuel centre with the present capacity.
