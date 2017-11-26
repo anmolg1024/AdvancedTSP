@@ -65,7 +65,7 @@ class Graph(object):
                     return extended_path
         return None
 
-    def __find_all_paths(self, start, end, path=[]):
+    def __find_all_paths(self, start, end, path=[]):        #same algo as the previous function except this fuctions returns back all the possible path between a pair of cities
         if path == None:
             path = []
         path = path + [start]
@@ -78,24 +78,24 @@ class Graph(object):
         for node in graph[start]:
             if node not in path:
                 newpaths = self.__find_all_paths( node, end, path)
-                for newpath in newpaths:
+                for newpath in newpaths:                            #the paths are stored in a list here
                     paths.append(newpath)
         return paths
 
-    def __find_ham(self):
+    def __find_ham(self):       #finds all ham-paths possible between every combination of connected cities
         count=0
         vertices=self.vertices()
         values=self.__graph_dict.values()
         for val in values:
             if (val !=[]):
-                count+=1    
+                count+=1                #counts the no. of cities which has a road connected with them, basically all except the empty nodes
         ham_paths=[]
         for start in vertices:
             for end in vertices:
                 if start!=end:
                     allpaths=self.__find_all_paths(start,end)
                     for path in allpaths:
-                        if len(path)==count:
+                        if len(path)==count:                #out of all ham paths computed by the find_all_paths function it considers only those which allows the postman to cover every city he needs to travle to.
                             ham_paths.append(path)
         if ham_paths:
             return ham_paths
@@ -131,8 +131,8 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     #print('\n',nodes)
     x=0
     nodemap={}
-    for i in nodes:
-        nodemap[nodes[x]]=x
+    for i in nodes:             
+        nodemap[nodes[x]]=x     #assigning whole no.s starting from 0 to the node to be used later in pygame
         x+=1
     #print (nodemap)
     graph={}
@@ -141,7 +141,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
         l=g[i]
         templist=[]
         for j in l:
-            templist.append(nodemap[j])
+            templist.append(nodemap[j])         #changing the representation of the graph using the number's assigned to the nodes
         graph[nodemap[i]]=templist
     #print (graph)
     
@@ -156,7 +156,7 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
     weighted_edges = {}
     j = 0
     for i in weights:
-        weighted_edges[temp_edges[j]] = i
+        weighted_edges[temp_edges[j]] = i       #mapping the weights with their respective edges
         j+=1
 
     print ("These are the assigned lengths of each path:")
@@ -195,7 +195,8 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
         time_taken += i #in order to find the total time taken in the day job
 
     print ("The path which shall take the minimum amount of time to travel to all locations (in terms of paths):")
-    print (shortest_way_edges)
+    print (shortest_way_edges)          #the final path in terms of edges
+    
     #print (time_taken) 
     print 'The time taken by the salesman for his job will be: %f hours.' % time_taken
 
@@ -206,13 +207,13 @@ if __name__ == "__main__": #EXP: refer: https://stackoverflow.com/questions/4191
         for j in i:
             if j not in shortest_way_vertices:
                 shortest_way_vertices.append(j)
-#    print ("The path which shall take the minimum amount of time to travel to all cities (in terms of cities):")
+   #print ("The path which shall take the minimum amount of time to travel to all cities (in terms of cities):")
  #   print (shortest_way_vertices)
 
     #pygame code starts-
     path=[]
     for i in shortest_way_vertices:
-        path.append(nodemap[i])
+        path.append(nodemap[i])             #changing the represention of path by using the alloted numbers instead of alphabetical nodes.
     #print(path)
         
 '''
